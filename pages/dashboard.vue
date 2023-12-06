@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    Page: index
+    Page: dashboard
   </div>
 </template>
 

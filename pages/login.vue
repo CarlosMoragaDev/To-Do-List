@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    Page: index
+    Page: login
   </div>
 </template>
 
