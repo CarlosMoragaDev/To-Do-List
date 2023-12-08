@@ -100,16 +100,16 @@ const deleteFunction = async (id) => {
                         <tr class="bg-gray-200">
                             <th class="py-3 px-6">Nombre</th>
                             <th class="py-3 px-6 hidden sm:table-cell">Descripción</th>
-                            <th class="py-3 px-6">Estado</th>
+                            <th class="py-3 px-6 hidden sm:table-cell">Estado</th>
                             <th class="py-3 px-6">Acciones</th>
                         </tr>
                         </thead>
                         <tbody class="text-gray-600 divide-y">
                         <tr v-for="(item, index) in displayedItems" :key="index">
-                            <td class="border px-6 py-4 whitespace-nowrap">{{ item?.name }}</td>
+                            <td class="border px-6 py-4 ">{{ item?.name }}</td>
                             <td class="border px-6 py-4 hidden sm:table-cell">{{ item?.description }}</td>
-                            <td class="border px-6 py-4 whitespace-nowrap">
-                                <UBadge class="whitespace-nowrap px-3 py-2"
+                            <td class="border px-6 py-4 hidden sm:table-cell ">
+                                <UBadge class=" px-3 py-2"
                                         :color="item?.status === 'Iniciada' ? 'primary' :
                                 item?.status === 'Pendiente' ? 'yellow' :  'cyan'">{{ item?.status }}
                                 </UBadge>

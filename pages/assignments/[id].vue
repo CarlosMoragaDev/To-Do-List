@@ -37,6 +37,31 @@ const updateFunction = async () => {
         isOpen.value = !isOpen.value
     })
 }
+
+const pendingAssignment = async () => {
+    await useFetch('http://localhost:8000/api/status_assignment/', {
+        method: "PUT",
+        params: {
+            id: assignment.value,
+            status: '2',
+        },
+    }).then((response) => {
+        console.log(response)
+        refresh()
+    })
+}
+const finishAssignment = async () => {
+    await useFetch('http://localhost:8000/api/status_assignment/', {
+        method: "PUT",
+        params: {
+            id: assignment.value,
+            status: '3',
+        },
+    }).then((response) => {
+        console.log(response)
+        refresh()
+    })
+}
 </script>
 
 <template>
@@ -46,22 +71,21 @@ const updateFunction = async () => {
                 <div
                         class="grid grid-cols-2 rounded-lg p-5 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 ring-1 ring-gray-100/5 dark:ring-gray-800">
                     <div class="col-start-1 col-span-1">
-                        Crear Nueva Tarea
+                        <h2 class="text-2xl font-semibold mb-4">Detalles de Tarea:  {{ assignments?.name }}</h2>
                     </div>
                     <div class="col-start-2 col-span-1 grid justify-items-end">
                         <div class="flex items-center justify-between space-x-2 pr-12">
                             <UButton type="submit" size="sm" color="primary"
                                      variant="solid" label="Editar"
                                      @click="isOpen = true"/>
-                                <UButton size="sm" color="primary"
-                                         variant="solid" label="Volver" :trailing="false"
-                                         to="/assignments"/>
+                            <UButton size="sm" color="primary"
+                                     variant="solid" label="Volver" :trailing="false"
+                                     to="/assignments"/>
                         </div>
                     </div>
                 </div>
             </template>
             <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-xl p-8">
-                <h2 class="text-2xl font-semibold mb-4">Detalles {{ assignments?.name }}</h2>
                 <div>
                     <div class="mb-4">
                         <p class="text-gray-600 mb-1"><span class="font-semibold">Id:</span></p>
@@ -84,6 +108,60 @@ const updateFunction = async () => {
                             </UBadge>
                         </p>
                     </div>
+                    <div v-if="assignments?.status === 'Iniciada'">
+                        <div class="mb-4 flex space-x-2">
+                            <UPopover>
+                                <UButton
+                                    class="py-2 leading-none px-3 font-medium bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                                    label="Cambiar a Pendiente" v-show=" assignments?.status === 'Iniciada'"/>
+                                <template #panel="{ close }">
+                                    <div class="p-4">
+                                        ¿Está seguro?
+                                    </div>
+                                    <div class="flex space-x-2 p-3">
+                                        <UButton label=Si @click="pendingAssignment();close()"
+                                                 class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                        <UButton label="No" @click="close"/>
+                                    </div>
+                                </template>
+                            </UPopover>
+                            <UPopover>
+                                <UButton
+                                    class="py-2 leading-none px-3 font-medium bg-cyan-500 text-white rounded hover:bg-cyan-600"
+                                    label="Finalizar Tarea" v-show=" assignments?.status != 'Completada'"/>
+                                <template #panel="{ close }">
+                                    <div class="p-4">
+                                        ¿Está seguro?
+                                    </div>
+                                    <div class="flex space-x-2 p-3">
+                                        <UButton label=Si @click="finishAssignment();close()"
+                                                 class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                        <UButton label="No" @click="close"/>
+                                    </div>
+                                </template>
+                            </UPopover>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <div class="mb-4">
+                            <UPopover>
+                                <UButton
+                                    class="py-2 leading-none px-3 font-medium bg-cyan-500 text-white rounded hover:bg-cyan-600"
+                                    label="Finalizar Tarea" v-show=" assignments?.status != 'Completada'"/>
+                                <template #panel="{ close }">
+                                    <div class="p-4">
+                                        ¿Está seguro?
+                                    </div>
+                                    <div class="flex space-x-2 p-3">
+                                        <UButton label=Si @click="finishAssignment();close()"
+                                                 class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                        <UButton label="No" @click="close"/>
+                                    </div>
+                                </template>
+                            </UPopover>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </UCard>
@@ -112,13 +190,13 @@ const updateFunction = async () => {
                     </div>
                 </template>
                 <div
-                        class="grid lg:grid-cols-4 sm:grid-cols-1 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 rounded-lg p-2 ring-3 ring-gray-100/5 dark:ring-gray-800">
-                    <div class="lg:col-start-2 sm:col-start-1 lg:col-span-2 pr-5 pb-5">
+                        class="grid lg:grid-cols-6 sm:grid-cols-1 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 rounded-lg p-2 ring-3 ring-gray-100/5 dark:ring-gray-800">
+                    <div class="lg:col-start-2 sm:col-start-1 lg:col-span-4 pr-5 pb-5">
                         <UFormGroup label="Nombre" name="name" class="m-5" :required="true">
                             <UInput v-model="state.name"/>
                         </UFormGroup>
                         <UFormGroup label="Descripción" name="description" class="m-5" help="Máximo 100 caracteres">
-                            <UTextarea v-model="state.description" size="lg" :rows="3" :maxlength="100"/>
+                            <UTextarea v-model="state.description" size="xl" :rows="4" :maxlength="100"/>
                         </UFormGroup>
                     </div>
                 </div>

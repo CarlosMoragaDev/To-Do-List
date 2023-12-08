@@ -47,13 +47,13 @@ const postFunction = async () => {
                     </div>
                 </template>
                 <div
-                        class="grid lg:grid-cols-4 sm:grid-cols-1 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 rounded-lg p-2 ring-3 ring-gray-100/5 dark:ring-gray-800">
-                    <div class="lg:col-start-2 sm:col-start-1 lg:col-span-2 pr-5 pb-5">
+                    class="grid lg:grid-cols-6 sm:grid-cols-1 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 rounded-lg p-2 ring-3 ring-gray-100/5 dark:ring-gray-800">
+                    <div class="lg:col-start-2 sm:col-start-1 lg:col-span-4 pr-5 pb-5">
                         <UFormGroup label="Nombre" name="name" class="m-5" :required="true">
                             <UInput v-model="state.name"/>
                         </UFormGroup>
                         <UFormGroup label="Descripción" name="description" class="m-5" help="Máximo 100 caracteres">
-                            <UTextarea v-model="state.description" size="sm" :rows="3" :maxlength="100"/>
+                            <UTextarea v-model="state.description" size="xl" :rows="4" :maxlength="100"/>
                         </UFormGroup>
                     </div>
                 </div>
