@@ -53,9 +53,9 @@ const updateFunction = async () => {
                             <UButton type="submit" size="sm" color="primary"
                                      variant="solid" label="Editar"
                                      @click="isOpen = true"/>
-                            <UButton size="sm" color="primary"
-                                     variant="solid" label="Volver" :trailing="false"
-                                     to="/assignments"/>
+                                <UButton size="sm" color="primary"
+                                         variant="solid" label="Volver" :trailing="false"
+                                         to="/assignments"/>
                         </div>
                     </div>
                 </div>
