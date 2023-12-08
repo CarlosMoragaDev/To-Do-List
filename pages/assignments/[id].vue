@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import {ref, reactive} from "vue";
+import Default from "~/layouts/Default.vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -65,113 +66,123 @@ const finishAssignment = async () => {
 </script>
 
 <template>
-    <div class="bg-gray-100 min-h-screen py-12">
-        <UCard :ui="{ ring: 'ring-1 shadow-xl ring-gray-100/5 dark:ring-gray-800',}">
-            <template #header>
-                <div
-                        class="grid grid-cols-2 rounded-lg p-5 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 ring-1 ring-gray-100/5 dark:ring-gray-800">
-                    <div class="col-start-1 col-span-1">
-                        <h2 class="text-2xl font-semibold mb-4">Detalles de Tarea:  {{ assignments?.name }}</h2>
-                    </div>
-                    <div class="col-start-2 col-span-1 grid justify-items-end">
-                        <div class="flex items-center justify-between space-x-2 pr-12">
-                            <UButton type="submit" size="sm" color="primary"
-                                     variant="solid" label="Editar"
-                                     @click="isOpen = true"/>
-                            <UButton size="sm" color="primary"
-                                     variant="solid" label="Volver" :trailing="false"
-                                     to="/assignments"/>
+    <Default>
+        <Navbar/>
+        <div class="min-w-full min-h-full lg:p-4 sm:p-1">
+            <UCard
+                    class="min-w-full min-h-full bg-gradient-to-b from-rose-100 to-teal-100"
+                    :ui="{ ring: 'ring-1 shadow-xl ring-gray-100/5 dark:ring-gray-800',}">
+                <template #header>
+                    <div
+                            class="grid grid-cols-2 rounded-lg p-5 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 ring-1 ring-gray-100/5 dark:ring-gray-800">
+                        <div class="col-start-1 col-span-1">
+                            <h2 class="text-2xl font-semibold mb-4">Detalles de Tarea: {{ assignments?.name }}</h2>
+                        </div>
+                        <div class="col-start-2 col-span-1 grid justify-items-end">
+                            <div class="flex items-center justify-between space-x-2 pr-12">
+                                <UButton type="submit" size="sm" color="primary"
+                                         variant="solid" label="Editar"
+                                         @click="isOpen = true"/>
+                                <UButton size="sm" color="primary"
+                                         variant="solid" label="Volver" :trailing="false"
+                                         to="/assignments"/>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </template>
-            <div class="max-w-7xl mx-auto bg-white rounded-lg shadow-xl p-8">
-                <div>
-                    <div class="mb-4">
-                        <p class="text-gray-600 mb-1"><span class="font-semibold">Id:</span></p>
-                        <p class="border-b border-gray-300 pb-2">{{ assignments?.id }}</p>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-gray-600 mb-1"><span class="font-semibold">Nombre:</span></p>
-                        <p class="border-b border-gray-300 pb-2">{{ assignments?.name }}</p>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-gray-600 mb-1"><span class="font-semibold">Descripción:</span></p>
-                        <p class="border-b border-gray-300 pb-2">{{ assignments?.description }}</p>
-                    </div>
-                    <div class="mb-4">
-                        <p class="text-gray-600 mb-1"><span class="font-semibold">Estado:</span></p>
-                        <p class="border-b border-gray-300 pb-2">
-                            <UBadge class="whitespace-nowrap"
-                                    :color="assignments?.status === 'Iniciada' ? 'primary' :
-                                assignments?.status === 'Pendiente' ? 'yellow' :  'cyan'">{{ assignments?.status }}
-                            </UBadge>
-                        </p>
-                    </div>
-                    <div v-if="assignments?.status === 'Iniciada'">
-                        <div class="mb-4 flex space-x-2">
-                            <UPopover>
-                                <UButton
-                                    class="py-2 leading-none px-3 font-medium bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                                    label="Cambiar a Pendiente" v-show=" assignments?.status === 'Iniciada'"/>
-                                <template #panel="{ close }">
-                                    <div class="p-4">
-                                        ¿Está seguro?
-                                    </div>
-                                    <div class="flex space-x-2 p-3">
-                                        <UButton label=Si @click="pendingAssignment();close()"
-                                                 class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
-                                        <UButton label="No" @click="close"/>
-                                    </div>
-                                </template>
-                            </UPopover>
-                            <UPopover>
-                                <UButton
-                                    class="py-2 leading-none px-3 font-medium bg-cyan-500 text-white rounded hover:bg-cyan-600"
-                                    label="Finalizar Tarea" v-show=" assignments?.status != 'Completada'"/>
-                                <template #panel="{ close }">
-                                    <div class="p-4">
-                                        ¿Está seguro?
-                                    </div>
-                                    <div class="flex space-x-2 p-3">
-                                        <UButton label=Si @click="finishAssignment();close()"
-                                                 class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
-                                        <UButton label="No" @click="close"/>
-                                    </div>
-                                </template>
-                            </UPopover>
-                        </div>
-                    </div>
-                    <div v-else>
+                </template>
+                <div class="mx-auto rounded-lg shadow-xl p-8">
+                    <div>
                         <div class="mb-4">
-                            <UPopover>
-                                <UButton
-                                    class="py-2 leading-none px-3 font-medium bg-cyan-500 text-white rounded hover:bg-cyan-600"
-                                    label="Finalizar Tarea" v-show=" assignments?.status != 'Completada'"/>
-                                <template #panel="{ close }">
-                                    <div class="p-4">
-                                        ¿Está seguro?
-                                    </div>
-                                    <div class="flex space-x-2 p-3">
-                                        <UButton label=Si @click="finishAssignment();close()"
-                                                 class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
-                                        <UButton label="No" @click="close"/>
-                                    </div>
-                                </template>
-                            </UPopover>
+                            <p class="text-gray-600 mb-1"><span class="font-semibold">Id:</span></p>
+                            <p class="border-b border-gray-300 pb-2">{{ assignments?.id }}</p>
                         </div>
-                    </div>
+                        <div class="mb-4">
+                            <p class="text-gray-600 mb-1"><span class="font-semibold">Nombre:</span></p>
+                            <p class="border-b border-gray-300 pb-2">{{ assignments?.name }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-gray-600 mb-1"><span class="font-semibold">Descripción:</span></p>
+                            <p class="border-b border-gray-300 pb-2">{{ assignments?.description }}</p>
+                        </div>
+                        <div class="mb-4">
+                            <p class="text-gray-600 mb-1"><span class="font-semibold">Estado:</span></p>
+                            <p class="border-b border-gray-300 pb-2">
+                                <UBadge class="whitespace-nowrap"
+                                        :color="assignments?.status === 'Iniciada' ? 'primary' :
+                                assignments?.status === 'Pendiente' ? 'yellow' :  'cyan'">{{ assignments?.status }}
+                                </UBadge>
+                            </p>
+                        </div>
+                        <div v-if="assignments?.status === 'Iniciada'">
+                            <div class="mb-4 flex space-x-20">
+                                <div>
+                                    <UPopover class="w-24">
+                                        <UButton
+                                                class="py-2 leading-none px-3 font-medium bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                                                label="Dejar Pendiente"
+                                                v-show=" assignments?.status === 'Iniciada'"/>
+                                        <template #panel="{ close }">
+                                            <div class="p-4">
+                                                ¿Está seguro?
+                                            </div>
+                                            <div class="flex space-x-2 p-3">
+                                                <UButton label=Si @click="pendingAssignment();close()"
+                                                         class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                                <UButton label="No" @click="close"/>
+                                            </div>
+                                        </template>
+                                    </UPopover>
+                                </div>
+                                <div>
+                                    <UPopover class="w-24">
+                                        <UButton
+                                                class="py-2 leading-none px-3 font-medium bg-cyan-500 text-white rounded hover:bg-cyan-600"
+                                                label="Finalizar Tarea" v-show=" assignments?.status != 'Completada'"/>
+                                        <template #panel="{ close }">
+                                            <div class="p-4">
+                                                ¿Está seguro?
+                                            </div>
+                                            <div class="flex space-x-2 p-3">
+                                                <UButton label=Si @click="finishAssignment();close()"
+                                                         class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                                <UButton label="No" @click="close"/>
+                                            </div>
+                                        </template>
+                                    </UPopover>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-else>
+                            <div class="mb-4">
+                                <UPopover class="w-24">
+                                    <UButton
+                                            class="py-2 leading-none px-3 font-medium bg-cyan-500 text-white rounded hover:bg-cyan-600"
+                                            label="Finalizar Tarea" v-show=" assignments?.status != 'Completada'"/>
+                                    <template #panel="{ close }">
+                                        <div class="p-4">
+                                            ¿Está seguro?
+                                        </div>
+                                        <div class="flex space-x-2 p-3">
+                                            <UButton label=Si @click="finishAssignment();close()"
+                                                     class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                            <UButton label="No" @click="close"/>
+                                        </div>
+                                    </template>
+                                </UPopover>
+                            </div>
+                        </div>
 
+                    </div>
                 </div>
-            </div>
-        </UCard>
-    </div>
-    <USlideover v-model="isOpen" :ui="{width: 'lg:max-w-4xl md:max-w-lg sm:max-w-lg'}">
+            </UCard>
+        </div>
+    </Default>
+    <USlideover v-model="isOpen" :ui="{width: 'lg:max-w-4xl md:max-w-lg sm:max-w-lg', background: 'bg-gradient-to-b from-rose-100 to-teal-100'}">
         <UForm
                 :state="state"
                 @submit="updateFunction">
-            <UCard class="flex flex-col flex-1"
-                   :ui="{ body: { base: 'flex-1' }, ring: '', divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
+            <UCard class="flex flex-col flex-1 min-w-full min-h-full bg-gradient-to-b from-rose-100 to-teal-100"
+                   :ui="{ body: { base: 'flex-1' }, divide: 'divide-y divide-gray-100 dark:divide-gray-800' }">
                 <template #header>
                     <div
                             class="grid grid-cols-2 rounded-lg p-5 shadow-xl dark:shadow-xl dark:shadow-cyan-500/5 ring-1 ring-gray-100/5 dark:ring-gray-800">
