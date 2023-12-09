@@ -30,7 +30,6 @@ const updateFunction = async () => {
             id: assignment.value,
             name: state.name,
             description: state.description,
-            status: '1',
         },
     }).then((response) => {
         console.log(response)

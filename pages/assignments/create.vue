@@ -10,7 +10,7 @@ const state = reactive({
 })
 
 const postFunction = async () => {
-    await useFetch('http://localhost:8000/api/assignments/', {
+    await useFetch('http://localhost:8000/api/create_assignment/', {
         method: "POST",
         params: {
             name: state.name,
