@@ -9,7 +9,7 @@ definePageMeta({
 <template>
     <Default>
         <main class="w-full h-screen flex flex-col items-center justify-center px-4">
-            <UCard :ui="{divide: 'divide-y divide-gray-200 dark:divide-gray-700', body: { padding: 'p-4', base: 'divide-y divide-gray-200 dark:divide-gray-700' },}"
+            <UCard :ui="{divide: 'divide-y divide-gray-200 dark:divide-gray-700', body: { padding: 'p-4', base: 'divide-y divide-gray-200 dark:divide-gray-700' }}"
             >
                 <div class="max-w-sm w-full text-gray-600 space-y-8">
                     <div class="text-center">
