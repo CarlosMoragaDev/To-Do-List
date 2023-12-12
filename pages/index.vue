@@ -14,11 +14,11 @@ definePageMeta({
                 <div class="max-w-sm w-full text-gray-600 space-y-8">
                     <div class="text-center">
                         <div class="mt-5 space-y-2">
-                            <h3 class="text-gray-800 text-2xl font-bold sm:text-3xl">
+                            <h3 class="text-gray-800 text-4xl font-bold sm:text-3xl">
                                 Bienvenido
                             </h3>
-                            <p class="">
-                                Aqui podras registrar y administrar tus tareas
+                            <p class="text-gray-800 text-2xl sm:text-xl">
+                                Aquí podrás registrar y administrar tus tareas
                             </p>
                         </div>
                     </div>
@@ -26,7 +26,7 @@ definePageMeta({
                         <UButton
                                 class="mt-4 px-4 py-2 text-white font-medium bg-green-400 hover:bg-green-600 active:bg-indigo-600 rounded-lg duration-150"
                                 to="/assignments">
-                            Ir al panel
+                            Ir al Panel
                         </UButton>
                     </div>
                 </div>

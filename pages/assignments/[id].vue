@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {ref, reactive} from "vue";
 import Default from "~/layouts/Default.vue";
+import type {FormError, FormSubmitEvent} from '#ui/types'
 
 const route = useRoute()
 const router = useRouter()
@@ -22,8 +23,14 @@ const state = reactive({
     description: assignments?.value?.description,
 })
 
+const validate = (state: any): FormError[] => {
+    const errors = []
+    if (!state.name) errors.push({path: 'name', message: 'Campo Requiredo'})
+    return errors
+}
 
-const updateFunction = async () => {
+
+const updateFunction = async (event: FormSubmitEvent<any>) => {
     await useFetch('http://localhost:8000/api/assignments/' + assignment.value, {
         method: "PUT",
         params: {
@@ -176,8 +183,10 @@ const finishAssignment = async () => {
             </UCard>
         </div>
     </Default>
-    <USlideover v-model="isOpen" :ui="{width: 'lg:max-w-4xl md:max-w-lg sm:max-w-lg', background: 'bg-gradient-to-b from-rose-100 to-teal-100'}">
+    <USlideover v-model="isOpen"
+                :ui="{width: 'lg:max-w-4xl md:max-w-lg sm:max-w-lg', background: 'bg-gradient-to-b from-rose-100 to-teal-100'}">
         <UForm
+                :validate="validate"
                 :state="state"
                 @submit="updateFunction">
             <UCard class="flex flex-col flex-1 min-w-full min-h-full bg-gradient-to-b from-rose-100 to-teal-100"
