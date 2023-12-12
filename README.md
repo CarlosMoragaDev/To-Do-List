@@ -23,6 +23,8 @@ bun install
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
+> [!IMPORTANT]  
+> Also 'To-Do-List-Api' must be running on `http://localhost:8000`.
 
 ```bash
 # npm
