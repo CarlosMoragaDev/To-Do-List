@@ -69,6 +69,19 @@ const finishAssignment = async () => {
         refresh()
     })
 }
+
+const initatedAssignment = async () => {
+    await useFetch('http://localhost:8000/api/status_assignment/', {
+        method: "PUT",
+        params: {
+            id: assignment.value,
+            status: '1',
+        },
+    }).then((response) => {
+        console.log(response)
+        refresh()
+    })
+}
 </script>
 
 <template>
@@ -159,22 +172,42 @@ const finishAssignment = async () => {
                             </div>
                         </div>
                         <div v-else>
-                            <div class="mb-4">
-                                <UPopover class="w-24">
-                                    <UButton
+                            <div class="mb-4 flex space-x-4">
+                                <div>
+                                    <UPopover class="w-24">
+                                        <UButton
+                                            class="py-2 leading-none px-3 font-medium bg-green-500 text-white rounded hover:bg-green-600"
+                                            label="Iniciar"
+                                            v-show=" assignments?.status === 'Pendiente'"/>
+                                        <template #panel="{ close }">
+                                            <div class="p-4">
+                                                ¿Está seguro?
+                                            </div>
+                                            <div class="flex space-x-2 p-3">
+                                                <UButton label=Si @click="initatedAssignment();close()"
+                                                         class="py-2 leading-none font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                                <UButton label="No" @click="close"/>
+                                            </div>
+                                        </template>
+                                    </UPopover>
+                                </div>
+                                <div>
+                                    <UPopover class="w-24">
+                                        <UButton
                                             class="py-2 leading-none px-3 font-medium bg-cyan-500 text-white rounded hover:bg-cyan-600"
                                             label="Finalizar Tarea" v-show=" assignments?.status != 'Completada'"/>
-                                    <template #panel="{ close }">
-                                        <div class="p-4">
-                                            ¿Está seguro?
-                                        </div>
-                                        <div class="flex space-x-2 p-3">
-                                            <UButton label=Si @click="finishAssignment();close()"
-                                                     class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
-                                            <UButton label="No" @click="close"/>
-                                        </div>
-                                    </template>
-                                </UPopover>
+                                        <template #panel="{ close }">
+                                            <div class="p-4">
+                                                ¿Está seguro?
+                                            </div>
+                                            <div class="flex space-x-2 p-3">
+                                                <UButton label=Si @click="finishAssignment();close()"
+                                                         class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"></UButton>
+                                                <UButton label="No" @click="close"/>
+                                            </div>
+                                        </template>
+                                    </UPopover>
+                                </div>
                             </div>
                         </div>
 

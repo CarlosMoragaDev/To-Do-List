@@ -11,11 +11,13 @@ const {data: assignments, refresh} = await useAsyncData(
             assingmentsData.value = [];
             dataInitial.value = response
             response.forEach((element) => {
-                assingmentsData.value.push(element)
+                if (element.status === 'Completada') {
+                    assingmentsData.value.push(element)
+                }
             });
         })
 )
-
+console.log(assingmentsData.value)
 
 setTimeout(() => {
     refresh()
@@ -77,13 +79,8 @@ const deleteFunction = async (id) => {
                     <div class="items-start justify-between md:flex shadow-xl p-4">
                         <div class="max-w-lg">
                             <h3 class="text-gray-800 text-xl font-bold sm:text-2xl leading-tight">
-                                Lista de Tareas
+                                Lista de Tareas Archivadas
                             </h3>
-                        </div>
-                        <div class="mt-3 md:mt-0">
-                            <UButton size="sm" color="primary"
-                                     variant="solid" label="Nueva Tarea" :trailing="false"
-                                     to="/assignments/create"/>
                         </div>
                     </div>
                 </template>
@@ -113,10 +110,6 @@ const deleteFunction = async (id) => {
                                 </td>
                                 <td class="border px-6 py-4">
                                     <div class="flex space-x-2">
-                                        <NuxtLink :to="'/assignments/' + item?.id"
-                                                  class="bg-blue-500 text-white rounded hover:bg-blue-600 py-2 px-3 leading-none font-medium duration-150">
-                                            Editar
-                                        </NuxtLink>
                                         <UPopover mode="click">
                                             <UButton
                                                     class="py-2 leading-none px-3 font-medium bg-red-500 text-white rounded hover:bg-red-600"
@@ -141,11 +134,11 @@ const deleteFunction = async (id) => {
                 </div>
                 <div class="flex justify-end pt-2">
                     <UButton @click="previousPage" :disabled="currentPage === 0"
-                            class="px-3 py-1 mr-2 bg-green-400 text-white rounded hover:bg-green-600">Anterior
+                             class="px-3 py-1 mr-2 bg-green-400 text-white rounded hover:bg-green-600">Anterior
                     </UButton>
                     <div class="mr-3"><span>Página: </span>{{ currentPage + 1 }}</div>
                     <UButton @click="nextPage" :disabled="currentPage === totalPages - 1"
-                            class="px-3 py-1 mr-2 bg-green-400 text-white rounded hover:bg-green-600">Siguiente
+                             class="px-3 py-1 mr-2 bg-green-400 text-white rounded hover:bg-green-600">Siguiente
                     </UButton>
                 </div>
             </UCard>

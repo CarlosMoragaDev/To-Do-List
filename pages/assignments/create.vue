@@ -17,7 +17,7 @@ const validate = (state: any): FormError[] => {
 
 
 const postFunction = async (event: FormSubmitEvent<any>) => {
-    await useFetch('http://localhost:8000/api/create_assignment/', {
+    await useFetch('http://localhost:8000/api/assignments/', {
         method: "POST",
         params: {
             name: state.name,
